@@ -82,7 +82,7 @@ export default function ToggleBanner({
               <Logo height={30} />
             </div>
             <div className={styles.bannerContent}>
-              <div className={styles.bannerTitle}>TiDB Dashboard</div>
+              <div className={styles.bannerTitle}>YiDB Dashboard</div>
               <div className={styles.bannerVersion}>
                 {isLoading && '...'}
                 {!isLoading && (version || 'Version unknown')}

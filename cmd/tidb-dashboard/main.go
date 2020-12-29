@@ -168,7 +168,7 @@ func main() {
 	listenAddr := fmt.Sprintf("%s:%d", cliConfig.ListenHost, cliConfig.ListenPort)
 	listener, err := net.Listen("tcp", listenAddr)
 	if err != nil {
-		log.Fatal("TiDB Dashboard server listen failed", zap.String("addr", listenAddr), zap.Error(err))
+		log.Fatal("YiDB Dashboard server listen failed", zap.String("addr", listenAddr), zap.Error(err))
 	}
 
 	var customKeyVisualProvider *keyvisualregion.DataProvider

@@ -38,7 +38,7 @@ var (
 )
 
 func Print() {
-	log.Info("TiDB Dashboard started",
+	log.Info("YiDB Dashboard started",
 		zap.String("internal-version", InternalVersion),
 		zap.String("standalone", Standalone),
 		zap.String("pd-version", PDVersion),

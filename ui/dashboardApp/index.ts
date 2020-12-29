@@ -54,7 +54,7 @@ async function main() {
     info = i.data
   } catch (e) {
     Modal.error({
-      title: 'Failed to connect to TiDB Dashboard server',
+      title: 'Failed to connect to YiDB Dashboard server',
       content: '' + e,
       okText: 'Reload',
       onOk: () => window.location.reload(),

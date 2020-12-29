@@ -95,8 +95,8 @@ func (c *Client) WithSQLAPIAddress(host string, sqlPort int) *Client {
 func (c *Client) OpenSQLConn(user string, pass string) (*gorm.DB, error) {
 	overrideEndpoint := os.Getenv(tidbOverrideSQLEndpointEnvVar)
 	if overrideEndpoint != "" && c.sqlAPIAddress != "" {
-		log.Warn(fmt.Sprintf("Reject to establish a target specified TiDB SQL connection since `%s` is set", tidbOverrideSQLEndpointEnvVar))
-		return nil, ErrTiDBConnFailed.New("TiDB Dashboard is configured to only connect to specified TiDB host")
+		log.Warn(fmt.Sprintf("Reject to establish a target specified YiDB SQL connection since `%s` is set", tidbOverrideSQLEndpointEnvVar))
+		return nil, ErrTiDBConnFailed.New("YiDB Dashboard is configured to only connect to specified YiDB host")
 	}
 
 	addr := c.sqlAPIAddress
@@ -124,15 +124,15 @@ func (c *Client) OpenSQLConn(user string, pass string) (*gorm.DB, error) {
 	if err != nil {
 		if _, ok := err.(*net.OpError); ok || err == driver.ErrBadConn {
 			if strings.HasPrefix(addr, "0.0.0.0:") {
-				log.Warn("TiDB reported its address to be 0.0.0.0. Please specify `-advertise-address` command line parameter when running TiDB")
+				log.Warn("YiDB reported its address to be 0.0.0.0. Please specify `-advertise-address` command line parameter when running YiDB")
 			}
-			return nil, ErrTiDBConnFailed.Wrap(err, "failed to connect to TiDB")
+			return nil, ErrTiDBConnFailed.Wrap(err, "failed to connect to YiDB")
 		} else if mysqlErr, ok := err.(*mysql.MySQLError); ok {
 			if mysqlErr.Number == mysqlerr.ER_ACCESS_DENIED_ERROR {
-				return nil, ErrTiDBAuthFailed.New("bad TiDB username or password")
+				return nil, ErrTiDBAuthFailed.New("bad YiDB username or password")
 			}
 		}
-		log.Warn("Unknown error occurred while opening TiDB connection", zap.Error(err))
+		log.Warn("Unknown error occurred while opening YiDB connection", zap.Error(err))
 		return nil, err
 	}
 
@@ -142,8 +142,8 @@ func (c *Client) OpenSQLConn(user string, pass string) (*gorm.DB, error) {
 func (c *Client) SendGetRequest(path string) ([]byte, error) {
 	overrideEndpoint := os.Getenv(tidbOverrideStatusEndpointEnvVar)
 	if overrideEndpoint != "" && c.statusAPIAddress != "" {
-		log.Warn(fmt.Sprintf("Reject to establish a target specified TiDB status connection since `%s` is set", tidbOverrideStatusEndpointEnvVar))
-		return nil, ErrTiDBConnFailed.New("TiDB Dashboard is configured to only connect to specified TiDB host")
+		log.Warn(fmt.Sprintf("Reject to establish a target specified YiDB status connection since `%s` is set", tidbOverrideStatusEndpointEnvVar))
+		return nil, ErrTiDBConnFailed.New("YiDB Dashboard is configured to only connect to specified YiDB host")
 	}
 
 	addr := c.statusAPIAddress
@@ -156,5 +156,5 @@ func (c *Client) SendGetRequest(path string) ([]byte, error) {
 	}
 
 	uri := fmt.Sprintf("%s://%s%s", c.statusAPIHTTPScheme, addr, path)
-	return c.statusAPIHTTPClient.WithTimeout(c.statusAPITimeout).SendRequest(c.lifecycleCtx, uri, "GET", nil, ErrTiDBClientRequestFailed, "TiDB")
+	return c.statusAPIHTTPClient.WithTimeout(c.statusAPITimeout).SendRequest(c.lifecycleCtx, uri, "GET", nil, ErrTiDBClientRequestFailed, "YiDB")
 }
